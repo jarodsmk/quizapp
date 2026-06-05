@@ -60,8 +60,14 @@ export default function QuizClient() {
   }, [wsStatus, sendMessage, roomId, username]);
 
   const submitAnswer = (val) => {
-    setAnswer(val);
+    setAnswer(Array.isArray(val) ? val.join(', ') : val);
     sendMessage({ type: 'SUBMIT_ANSWER', roomId, username, answer: val });
+  };
+
+  const toggleSelected = (opt) => {
+    setSelected((prev) =>
+      prev.includes(opt) ? prev.filter((o) => o !== opt) : [...prev, opt]
+    );
   };
 
   if (status === 'JOINING') {
