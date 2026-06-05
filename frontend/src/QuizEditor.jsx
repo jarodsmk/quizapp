@@ -24,7 +24,7 @@ export default function QuizEditor() {
       type: 'multiple',
       questionText: '',
       options: ['', '', '', ''],
-      correctAnswers: [''],
+      correctAnswers: [],
       timeLimit: 30,
       image: ''
     }]);
