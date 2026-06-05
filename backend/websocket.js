@@ -77,7 +77,7 @@ function setupWebSocket(server) {
 
     if (session.status === 'IN_PROGRESS') {
         const question = session.quiz.questions[session.currentQuestionIndex];
-        const sanitizedQuestion = { ...question.toObject(), correctAnswers: undefined };
+        const sanitizedQuestion = sanitizeQuestion(question);
         ws.send(JSON.stringify({
             type: 'REJOINED',
             status: session.status,
