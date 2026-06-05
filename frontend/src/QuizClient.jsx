@@ -120,15 +120,38 @@ export default function QuizClient() {
           </div>
 
           <div className="grid gap-3 mt-auto">
-            {opts.map((opt, i) => (
+            {question.type === 'multiple' && question.correctCount > 1 && (
+              <p className="text-center text-sm opacity-70 -mb-1">
+                Select all that apply ({question.correctCount} correct), then submit
+              </p>
+            )}
+            {opts.map((opt, i) => {
+              const multi = question.type === 'multiple' && question.correctCount > 1;
+              const isSelected = selected.includes(opt);
+              return (
+                <button
+                  key={opt}
+                  onClick={() => (multi ? toggleSelected(opt) : submitAnswer(opt))}
+                  className={`btn btn-lg ${OPTION_COLORS[i % 4]} text-white border-0 font-display text-xl normal-case shadow-lg ${multi && isSelected ? 'ring-4 ring-offset-2 ring-white/80' : ''}`}
+                >
+                  {multi && (
+                    <span className={`inline-flex items-center justify-center w-6 h-6 rounded border-2 border-white ${isSelected ? 'bg-white/30' : ''}`}>
+                      {isSelected ? <Check size={16} /> : null}
+                    </span>
+                  )}
+                  {opt}
+                </button>
+              );
+            })}
+            {question.type === 'multiple' && question.correctCount > 1 && (
               <button
-                key={opt}
-                onClick={() => submitAnswer(opt)}
-                className={`btn btn-lg ${OPTION_COLORS[i % 4]} text-white border-0 font-display text-xl normal-case shadow-lg`}
+                onClick={() => submitAnswer(selected)}
+                disabled={selected.length === 0}
+                className="btn btn-primary btn-lg font-display"
               >
-                {opt}
+                Submit ({selected.length})
               </button>
-            ))}
+            )}
             {question.type === 'text' && (
               <>
                 <input
