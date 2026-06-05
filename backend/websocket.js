@@ -110,7 +110,7 @@ function setupWebSocket(server) {
         let sanitizedQuestion = null;
         if (session.status === 'IN_PROGRESS') {
             const question = session.quiz.questions[session.currentQuestionIndex];
-            sanitizedQuestion = { ...question.toObject(), correctAnswers: undefined };
+            sanitizedQuestion = sanitizeQuestion(question);
         }
 
         ws.send(JSON.stringify({
